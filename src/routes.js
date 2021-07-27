@@ -7,6 +7,7 @@ export default {
   channelsPath: () => [host, prefix, 'channels'].join('/'),
   channelPath: (id) => [host, prefix, 'channels', id].join('/'),
   channelMessagesPath: (id) => [host, prefix, 'channels', id, 'messages'].join('/'),
-  mainPagePath: () => '/',
+  loginPath: () => `${prefix}/login`,
+  chatPagePath: () => '/',
   loginPagePath: () => '/login',
 };

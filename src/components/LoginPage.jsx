@@ -4,9 +4,20 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
-const Login = () => {
+import useAuth from '../hooks/index.js';
+import routes from '../routes.js';
+
+const unauthorizedStatus = 401;
+
+const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false);
+  const auth = useAuth();
+  const location = useLocation();
+  const history = useHistory();
   const { t } = useTranslation();
 
   const {
@@ -19,8 +30,35 @@ const Login = () => {
     },
   });
 
-  const onSubmit = () => {
-    setAuthFailed(true);
+  const onSubmit = async (values) => {
+    setAuthFailed(false);
+
+    try {
+      const response = await axios.post(routes.loginPath(), values);
+      auth.logIn(response.data);
+
+      const defaultLocation = {
+        from: {
+          pathname: routes.chatPagePath(),
+        },
+      };
+      const { from } = location.state || defaultLocation;
+
+      history.replace(from);
+    } catch (err) {
+      if (!err.isAxiosError) {
+        toast(t('errors.unknown'), { type: 'error' });
+        throw err;
+      }
+
+      if (err?.response?.status === unauthorizedStatus) {
+        setAuthFailed(true);
+        return;
+      }
+
+      toast(t('errors.network'), { type: 'error' });
+      throw err;
+    }
   };
 
   const renderFeedback = () => {
@@ -79,4 +117,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
