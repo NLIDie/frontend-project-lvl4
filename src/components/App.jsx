@@ -31,10 +31,23 @@ const AuthProvider = ({ children }) => {
 
   const isAuth = () => !isEmpty(user);
 
+  const getAuthHeader = () => {
+    const fullUserData = JSON.parse(localStorage.getItem('user'));
+
+    if (isAuth()) {
+      return {
+        Authorization: `Bearer ${fullUserData.token}`,
+      };
+    }
+
+    return {};
+  };
+
   const authValue = {
     user,
     logIn,
     isAuth,
+    getAuthHeader,
   };
 
   return (

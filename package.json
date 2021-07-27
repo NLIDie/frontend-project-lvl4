@@ -57,6 +57,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.1",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
     "core-js": "^3.12.1",
@@ -82,9 +83,11 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.12.1",
     "react-i18next": "^11.11.4",
+    "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-toastify": "^7.0.4",
     "regenerator-runtime": "^0.13.7",
+    "rooks": "^5.4.2",
     "yup": "^0.32.9"
   }
 }
